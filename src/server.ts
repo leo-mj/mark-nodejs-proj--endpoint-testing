@@ -53,6 +53,22 @@ app.get("/quest/accept", (req, res) => {
   });
 });
 
+app.get("/quest/start/easy", (req, res) => {
+  res.json({
+    location: "Daycare centre",
+    speech: {
+      speaker: "Parent",
+      text: "I'll pick you up at three! Be nice and have fun!"
+    },
+    options: {
+      nap: "/",
+      cry: "/quest/decline",
+      restart: "/"
+    }
+    
+  })
+})
+
 app.get("/quest/decline", (req, res) => {
   res.json({
     location: "Apocalypse",
@@ -84,5 +100,59 @@ app.get("/quest/start/impossible", (req, res) => {
     },
   });
 })
+
+app.get("/quest/start/hard", (req, res) => {
+  res.json({
+    location: "Ankh Morpork, Discworld",
+    speech: {
+      speaker: {
+        name: "Vetinari",
+        description: "A tall, thin man dressed in dusty black. Strangely reminiscent of a predatory flamingo, if one existed.",
+      },
+      text: "Ah, I am glad we could get ahold of you. My apologies for the rough journey. Oh, and for the handcuffs, of course. Since you are willing to assist us in a very delicate matter, I am glad to ensure you will not encounter any further, slightly more lethal inconveniences.",
+    },
+    options: {
+      "Willing?! You just kidnapped me! I would never help you!": "/quest/start/hard/resist",
+      "I'm glad to be of service.": "/quest/start/hard/give-in",
+      restart: "/",
+    },
+  });
+})
+
+app.get("/quest/start/hard/give-in", (req, res) => {
+  res.json({
+    location: "Ankh Morpork, Discworld",
+    speech: {
+      speaker: {
+        name: "Vetinari",
+        description: "A tall, thin man dressed in dusty black. Strangely reminiscent of a predatory flamingo, if one existed.",
+      },
+      text: "How kind, and sensible, of you. Now, our predicament involves extremely high stakes. It appears my arch nemesis at the Ankh Morpork Times is uncomfortably close to defeating me. So tell me: BTS's genre, 4 letters.",
+    },
+    options: {
+      laugh: "/quest/start/hard/resist",
+      "K-Pop": "/quest/start/hard/answer",
+      restart: "/",
+    },
+  });
+})
+
+
+app.get("/quest/start/hard/resist", (req, res) => {
+  res.json({
+    location: "A dark dungeon",
+    speech: {
+      speaker: {
+        name: "Daniel 'One Drop' Trooper, official executioner of Ankh Morpork",
+        description: "A very jolly man with a good pension plan",
+      },
+      text: "Hi there! Sorry it took me so long, just had to make some preparations, you know how it is. So, would you like to be hanged the long way or the short way today?",
+    },
+    options: {
+      restart: "/",
+    },
+  });
+})
+
 
 export default app;

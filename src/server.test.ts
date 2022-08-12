@@ -73,3 +73,48 @@ test("GET /quest/start/impossible responds with instant 'death'", async () => {
   // includes option to restart
   expect(response.body.options).toMatchObject({ restart: "/" });
 });
+
+test("GET /quest/start/hard responds with Vetinari dialogue", async () => {
+  const response = await supertest(app).get("/quest/start/hard");
+
+  expect(response.body.location).toBe("Ankh Morpork, Discworld");
+  expect(response.body.speech.speaker.name).toMatch(/vetinari/i);
+
+  expect(response.body.speech.text).toMatch(/assist/i);
+  expect(response.body.speech.text).toMatch(/delicate/i);
+  expect(response.body.speech.text).toMatch(/inconvenience/i);
+
+  expect(response.body.options).toMatchObject({ "Willing?! You just kidnapped me! I would never help you!": "quest/start/hard/resist"})
+
+
+})
+
+test("GET /quest/start/hard/give-in responds with Vetinari dialogue", async () => {
+  const response = await supertest(app).get("/quest/start/hard/give-in");
+
+  expect(response.body.location).toBe("Ankh Morpork, Discworld");
+  expect(response.body.speech.speaker.name).toMatch(/vetinari/i);
+
+  expect(response.body.speech.text).toMatch(/letters/i);
+  expect(response.body.speech.text).toMatch(/defeat/i);
+  expect(response.body.speech.text).toMatch(/sensible/i);
+
+  expect(response.body.options).toMatchObject({ "K-Pop": "quest/start/hard/answer"})
+
+
+})
+
+test("GET /quest/start/hard/resist responds with executioner scene", async () => {
+  const response = await supertest(app).get("/quest/start/hard/resist");
+
+  expect(response.body.location).toBe("A dark dungeon");
+  expect(response.body.speech.speaker.name).toMatch(/executioner/i);
+
+  expect(response.body.speech.text).toMatch(/long way/i);
+  expect(response.body.speech.text).toMatch(/sorry/i);
+  expect(response.body.speech.text).toMatch(/hanged/i);
+
+  expect(response.body.options).toMatchObject({ restart: "/"})
+
+
+})
