@@ -69,4 +69,20 @@ app.get("/quest/decline", (req, res) => {
   });
 });
 
+app.get("/quest/start/impossible", (req, res) => {
+  res.json({
+    location: "Limbo",
+    speech: {
+      speaker: {
+        name: "DEATH",
+        description: "A tall hooded figure with a skull as its head, holding a scythe",
+      },
+      text: "You have died from a fireball. You should not have provoked the dragon. That must have been excruciating. I am sorry.",
+    },
+    options: {
+      restart: "/",
+    },
+  });
+})
+
 export default app;
